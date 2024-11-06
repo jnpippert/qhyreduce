@@ -276,10 +276,10 @@ def main():
         Path.mkdir(_CWD.joinpath("master"))
 
     for _DATE in _DATELIST:
-        try:
-            Path.mkdir(_CWD.joinpath(f"{_OBJECT.upper()}_{_FILTER}_{_DATE}_reduced"))
-        except:
-            pass
+        #try:
+        #    Path.mkdir(_CWD.joinpath(f"{_OBJECT.upper()}_{_FILTER}_{_DATE}_reduced"))
+        #except:
+        #    pass
         _ISMASTERBIAS = len(get_filepaths(_MASTERPATH, f"masterbias.fits")) == 1
         _ISMASTERDARK = (
             len(get_filepaths(_MASTERPATH, f"masterdark_{_EXPTIME}s.fits")) == 1
@@ -369,9 +369,12 @@ def main():
         rename_files(_TMPPATH, _DATE, flatdate)
         reduce(flatdate=flatdate)
         print(f"[INFO] Finished reducing {_DATE}.")
-        copy_files(get_filepaths(_TMPPATH,f"{prefix}*.fits"), f"{_OBJECT.upper()}_{_FILTER}_{_DATE}_reduced/")
-        print(f"[INFO] Trashing {_TMPPATH}")
-        shutil.rmtree(_TMPPATH)
+        print(f"[INFO] Reduced images saved in {_OBJECT.upper()}_{_FILTER}_{_DATE}_reduced/")
+        #TODO handle verison of reduced dirs
+        os.rename("tmp/",f"{_OBJECT.upper()}_{_FILTER}_{_DATE}_reduced/")
+        #copy_files(get_filepaths(_TMPPATH,f"{prefix}*.fits"), f"{_OBJECT.upper()}_{_FILTER}_{_DATE}_reduced/")
+        #print(f"[INFO] Trashing {_TMPPATH}")
+        #shutil.rmtree(_TMPPATH)
 
 
 if __name__ == "__main__":
