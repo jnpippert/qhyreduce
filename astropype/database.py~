@@ -173,8 +173,11 @@ def extract(__dataframe: DataFrame, column: str, distinct: bool = True) -> list:
     return list(__dataframe[column].values)
 
 
-def show(__database: Path) -> None:
+def show(__database: Path, __date : str = None) -> None:
+    pd.set_option("display.max_rows", None)
     database = pd.read_pickle(__database)
+    if __date is not None:
+        database = select(database,"date",pd.Timestamp(__date),"==") 
     print(database)
 
 
@@ -190,7 +193,7 @@ def select_flat_date_candidates(
         dataframe = select(dataframe,"date",pd.Timestamp("20240110"),">=")
     if pd.Timestamp(__date) <= pd.Timestamp("20231219"):
         print("[INFO] Considering dates only older than 2023.12.19")
-        dataframe = selcet(dataframe,"date",pd.Timestamp("20231219"),"<=")
+        dataframe = select(dataframe,"date",pd.Timestamp("20231219"),"<=")
     if pd.Timestamp(__date) > pd.Timestamp("20231219") and pd.Timestamp(__date) < pd.Timestamp("20240110"):
         print("[INFO] Considering dates between 2023.12.20 and 2024.01.09")
         dataframe = select(dataframe,"date",pd.Timestamp(20231219),">")

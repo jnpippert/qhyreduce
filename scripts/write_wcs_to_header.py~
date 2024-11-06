@@ -40,7 +40,7 @@ def main():
                 value = float(value)
             else:
                 value = str(value)
-            # print(keyword,value,comment)
+            print(keyword,value,comment)
             fits.setval(file,keyword=keyword,value=value,comment=comment)
 
 if __name__ == "__main__":

@@ -18,7 +18,7 @@ __all__ = ["MasterBias", "MasterDark", "MasterFlat"]
 
 class Master:
     def __init__(
-        self, files: list, method: str = "mean", k: int = None, q: int = None
+        self, files: list[str], method: str = "mean", k: int = None, q: int = None
     ):
         self._files = files
         self.data = None
@@ -58,7 +58,7 @@ class Master:
 
 class MasterBias(Master):
     def __init__(
-        self, files: list, method: str = "mean", k: int = None, q: int = None
+        self, files: list[str], method: str = "mean", k: int = None, q: int = None
     ):
         super().__init__(files=files, method=method, k=k, q=q)
         self._header["EXPTIME"] = 0
@@ -70,7 +70,7 @@ class MasterBias(Master):
 class MasterDark(Master):
     def __init__(
         self,
-        files: list,
+        files: list[Path],
         method: str = "mean",
         exptime: float = None,
         temperature: float = None,
@@ -111,7 +111,7 @@ class MasterDark(Master):
 class MasterFlat(Master):
     def __init__(
         self,
-        files: list,
+        files: list[str],
         method: str = "mean",
         k: int = None,
         q: int = None,

@@ -10,10 +10,10 @@ function wcs {
     ldactoasc -q -s -i ${FILE%".fits"}.ldac  -t LDAC_OBJECTS > ${FILE%".fits"}.cat 2> /dev/null
     scamp ${FILE%".fits"}.ldac -c "$CONFPATH"scamp.conf
     awk '{print $1,$2,$4,$7,$18,$19,$23,$24,$39,$40}' ${FILE%".fits"}.cat > ${FILE%".fits"}_srcs.cat
-    rm -f ${FILE%".fits"}.cat
-    rm -f *.png
-    rm -f *.xml
-    rm -f *.ldac
+    #rm -f ${FILE%".fits"}.cat
+    #rm -f *.png
+    #rm -f *.xml
+    #rm -f *.ldac
     python $SCRIPTS/write_wcs_to_header.py $FILE
     rm -f *.head
 

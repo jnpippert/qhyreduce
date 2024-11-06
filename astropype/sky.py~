@@ -68,7 +68,7 @@ def create_masterflat_bad_pixel_mask(reference_data: ndarray, k: int = 3) -> nda
 
 
 @timeit
-def scale_images(__files: list, __reference_file: Path, remove : bool = True, prefix: str = "scaled_"):
+def scale_images(__files: list[Path], __reference_file: Path, remove : bool = True, prefix: str = "scaled_"):
     print(f"scale by {__reference_file} for")
     ref_data = fits.getdata(__reference_file)
     kwargs = {
@@ -82,7 +82,7 @@ def scale_images(__files: list, __reference_file: Path, remove : bool = True, pr
 
 
 @timeit
-def create_flat_star_mask(__files: list, k: int = 3, remove : bool = True, prefix="starmask_"):
+def create_flat_star_mask(__files: list[Path], k: int = 3, remove : bool = True, prefix="starmask_"):
     print(f"create star mask using background fitting for")
     kwargs = {
         "prefix": prefix,
@@ -94,7 +94,7 @@ def create_flat_star_mask(__files: list, k: int = 3, remove : bool = True, prefi
 
 
 @timeit
-def star_clipping(__files: list, __maskfiles: list, remove : bool = True, prefix: str = "k"):
+def star_clipping(__files: list[Path], __maskfiles: list[Path], remove : bool = True, prefix: str = "k"):
     print(f"clipping stars based on extended star mask for files:")
     kwargs = {
         "prefix": prefix,

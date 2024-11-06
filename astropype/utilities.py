@@ -3,10 +3,10 @@ from pathlib import Path
 from typing import Any
 from astropy.io import fits
 from tqdm import tqdm
-__all__ = ["contains_substring", "get_filepaths", "copy_files", "rename_files"]
+__all__ = ["contains_substring", "get_filepaths", "copy_files", "rename_files", "remove_files"]
 
 
-def contains_substring(string: str, contents: list[str]) -> bool:
+def contains_substring(string: str, contents: list) -> bool:
     """
     Checks if a string contains certain sub-strings in true
     order.
@@ -41,7 +41,7 @@ def contains_substring(string: str, contents: list[str]) -> bool:
     return True
 
 
-def get_filepaths(path: Path, identifier: str = "*") -> list[Path]:
+def get_filepaths(path: Path, identifier: str = "*") -> list:
     """
     Determines all filepaths in a given directory regarding certain
     identifiers.
@@ -99,7 +99,7 @@ def get_filepaths(path: Path, identifier: str = "*") -> list[Path]:
     return files
 
 
-def copy_files(files: list[str], destination: Path) -> None:
+def copy_files(files: list, destination: Path) -> None:
     """
     Copies files to a given destination.
 
@@ -126,6 +126,29 @@ def copy_files(files: list[str], destination: Path) -> None:
         bar.refresh()
         os.system(f"cp {Path(file)} {destination}")
 
+def remove_files(files: list) -> None:
+    """
+    Remove files.
+
+    Parameters
+    ----------
+    files : list,str
+        List or filename of files to copy.
+
+    Raises
+    ------
+    TypeError
+        If files is not of type list or str.
+    """
+    if not isinstance(files, list):
+        files = [files]
+    if not isinstance(files, list):
+        TypeError(f"'files' of non-list type {type(files)}.")
+    print(f"[INFO] Removing files ...")
+    for file in (bar:=tqdm(files)):
+        bar.set_description(f"{file}")
+        bar.refresh()
+        os.system(f"rm -f {Path(file)}")
 
 def rename_files(path: Path, __date: str, __flatdate: str):
     files = sorted(path.iterdir(), key=os.path.getmtime)

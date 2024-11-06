@@ -3,7 +3,7 @@ from pathlib import Path
 from typing import Any
 from astropy.io import fits
 from tqdm import tqdm
-__all__ = ["contains_substring", "get_filepaths", "copy_files", "rename_files"]
+__all__ = ["contains_substring", "get_filepaths", "copy_files", "rename_files", "remove_files"]
 
 
 def contains_substring(string: str, contents: list[str]) -> bool:
@@ -126,10 +126,33 @@ def copy_files(files: list[str], destination: Path) -> None:
         bar.refresh()
         os.system(f"cp {Path(file)} {destination}")
 
+def remove_files(files: list[str]) -> None:
+    """
+    Remove files.
+
+    Parameters
+    ----------
+    files : list,str
+        List or filename of files to copy.
+
+    Raises
+    ------
+    TypeError
+        If files is not of type list or str.
+    """
+    if not isinstance(files, list):
+        files = [files]
+    if not isinstance(files, list):
+        TypeError(f"'files' of non-list type {type(files)}.")
+    print(f"[INFO] Removing files ...")
+    for file in (bar:=tqdm(files)):
+        bar.set_description(f"{file}")
+        bar.refresh()
+        os.system(f"rm -f {Path(file)}")
 
 def rename_files(path: Path, __date: str, __flatdate: str):
     files = sorted(path.iterdir(), key=os.path.getmtime)
-    for i, file in (bar:=tqdm(enumerate(files),total=len(files)):
+    for i, file in (bar:=tqdm(enumerate(files),total=len(files))):
         __object = fits.getval(file, "OBJECT")
         __filter = fits.getval(file, "FILTER")
         __count = f"{(3-len(str(i)))*'0'}{i}"

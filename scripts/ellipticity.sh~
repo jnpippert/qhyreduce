@@ -10,8 +10,8 @@ function calc_ellipticity {
   ldactoasc -q -s -i ${FILE%".fits"}.ldac  -t LDAC_OBJECTS > ${FILE%".fits"}.cat 2> /dev/null
   awk '{print $42,$44}' ${FILE%".fits"}.cat > ${FILE%".fits"}_fil.cat
   python $SCRIPTS/set_ell_src_head.py ${FILE%".fits"}_fil.cat
-  rm -f ${FILE%".fits"}_fil.cat
-  rm -f ${FILE%".fits"}.cat
+  #rm -f ${FILE%".fits"}_fil.cat
+  #rm -f ${FILE%".fits"}.cat
   rm -f ${FILE%".fits"}.ldac
   rm -f *.png
 }

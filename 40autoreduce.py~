@@ -306,7 +306,7 @@ def main():
 
         if "b" in args.steps:
             if not _ISMASTERBIAS:
-                biasfiles = database.select_bias("/data/wst/u/jpippert/qhyreduce/qhy_database.pkl")
+                biasfiles = database.select_bias("qhy_database.pkl")
                 if len(biasfiles) == 0:
                     _BIASCORR = False
                 else:
@@ -319,7 +319,7 @@ def main():
 
         if "d" in args.steps:
             if not _ISMASTERDARK:
-                darkfiles = database.select_darks("/data/wst/u/jpippert/qhyreduce/qhy_database.pkl", _EXPTIME)
+                darkfiles = database.select_darks("qhy_database.pkl", _EXPTIME)
                 if len(darkfiles) == 0:
                     _DARKCORR = False
                 else:
@@ -333,7 +333,7 @@ def main():
         if "f" in args.steps:
 
             flatfiles, flatdate = database.select_flats(
-                "/data/wst/u/jpippert/qhyreduce/qhy_database.pkl", _FILTER, _DATE
+                "qhy_database.pkl", _FILTER, _DATE
             )
 
             if (

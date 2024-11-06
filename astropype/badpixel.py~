@@ -34,7 +34,7 @@ def remove_bad_pixels(
     prefix: str = "n",
     value: Any = None,
     value_func: str = None,
-) -> list:
+) -> list[Path]:
     mask = fits.getdata(__mask_file).astype(np.float32)
     num = len(np.where(mask == 0)[0])
     mask[mask == 0] = np.nan

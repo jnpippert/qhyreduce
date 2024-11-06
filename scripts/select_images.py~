@@ -24,8 +24,9 @@ if __name__ == "__main__":
                                 dtype=str,
                                 unpack=True,usecols=(0,1,2,3))
     ell = ell.astype(float)
+    print(ell)
     fwhm = fwhm.astype(float)
-    
+    print(fwhm)
     nsrc = nsrc.astype(int)
     df = pd.DataFrame(data={"file" : files, "fwhm": fwhm,"ellipticity" : ell, "sources" : nsrc})
     ol = len(df)
