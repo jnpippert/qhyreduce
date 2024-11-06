@@ -9,7 +9,8 @@ test*
 #fits files
 *.fits
 *.txt
-
+*.py~
+qhy_database.pkl
 streampy_multifits.fits
 streampy_paramtab.fits
 
