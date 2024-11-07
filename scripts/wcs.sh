@@ -37,9 +37,11 @@ while (( "$#" )); do
 	--EPS-LIMIT)
 	    shift
 	    EPS_LIMIT=$1
+	    ;;
         *)
             ;;
     esac
     shift
 done
 
+gethead NSOURCES MED-FWHM MED--EPS *.fits > quality.txt
