@@ -153,13 +153,11 @@ def remove_files(files: list) -> None:
 
 def rename_files(path: Path, __date: str, __flatdate: str):
     files = [f for f in path.iterdir() if f.is_file()]
-    print(files)
     files = sort_files_by_obsdate(files)
-    print(files)
     for i, file in (bar:=tqdm(enumerate(files),total=len(files))):
         __object = fits.getval(file, "OBJECT")
         __filter = fits.getval(file, "FILTER")
-        __count = f"{(3-len(str(i)))*'0'}{i}"
+        __count = f"{(3-len(str(i+1)))*'0'}{i+1}"
         if __object == "bias_pipeline":
             __object = "bias"
         if __object == "dark_pipeline":
