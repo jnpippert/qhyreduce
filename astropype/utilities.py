@@ -3,6 +3,7 @@ from pathlib import Path
 from typing import Any
 from astropy.io import fits
 from tqdm import tqdm
+import pandas as pd
 __all__ = ["contains_substring", "get_filepaths", "copy_files", "rename_files", "remove_files"]
 
 
@@ -151,7 +152,10 @@ def remove_files(files: list) -> None:
         os.system(f"rm -f {Path(file)}")
 
 def rename_files(path: Path, __date: str, __flatdate: str):
-    files = sorted(path.iterdir(), key=os.path.getmtime)
+    files = [f for f in path.iterdir() if f.is_file()]
+    print(files)
+    files = sort_files_by_obsdate(files)
+    print(files)
     for i, file in (bar:=tqdm(enumerate(files),total=len(files))):
         __object = fits.getval(file, "OBJECT")
         __filter = fits.getval(file, "FILTER")
@@ -171,3 +175,14 @@ def rename_files(path: Path, __date: str, __flatdate: str):
         bar.set_description(f"{file.name} -> {new_filename}")
         bar.refresh()
         os.system(f"mv {file} {file.parent.joinpath(new_filename)}")
+
+def sort_files_by_obsdate(files : list[Path]) -> list[Path]:
+    scheme = {"path" : "str",
+              "filename" : "str",
+              "date" : "datetime64[ns]"}
+    df = pd.DataFrame(columns=scheme.keys()).astype(scheme)
+    for f in files:
+        df.loc[len(df.index)] = [f.parent, f.name, pd.Timestamp(fits.getval(f,"DATE-OBS"))]
+    print(df)
+    df = df.sort_values(by=["date"],ascending=True)
+    return [Path(row["path"]).joinpath(row["filename"]) for index,row in df.iterrows()]
