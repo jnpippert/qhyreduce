@@ -58,10 +58,11 @@ def update(__database: Path, __archivepath: Path):
     archive_dates = [
         pd.Timestamp(d.name) for d in __archivepath.iterdir() if d.is_dir()
     ]
-    for date in archive_dates.sort():
+    archive_dates.sort()
+    for date in archive_dates:
         date = date.date().strftime("%Y%m%d")
         added_rows = 0
-        if date in dates:
+        if pd.Timestamp(date) in dates:
             print(f"[INFO] {date} already in database -> Skipping date.")
             continue
         print(f"[INFO] Adding observations from {date} to database.")
