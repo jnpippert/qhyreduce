@@ -3,7 +3,7 @@ SCRIPTS=/data/wst/u/jpippert/qhyreduce/scripts
 CONFPATH=/data/wst/u/jpippert/qhyreduce/configs/
 FILE=""
 FWHM_LIMIT=2
-EPS_LIMIT=0.2
+EPS_LIMIT=0.3
 
 function wcs {
     
@@ -45,3 +45,4 @@ while (( "$#" )); do
 done
 
 gethead NSOURCES MED-FWHM MED--EPS *.fits > quality.txt
+python $SCRIPTS/select_images.py --fwhm $FWHM_LIMIT --eps $EPS_LIMIT
