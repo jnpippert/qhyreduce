@@ -55,13 +55,13 @@ def update(__database: Path, __archivepath: Path):
     """TODO docstring"""
     dataframe = pd.read_pickle(__database)
     dates = dataframe["date"].drop_duplicates().values
-    dates = dates.sort_values(by=["date"], ascending=True)
-    for directory in __archivepath.iterdir():
+    archive_dates = [
+        pd.Timestamp(d.name) for d in __archivepath.iterdir() if d.is_dir()
+    ]
+    for date in archive_dates.sort():
+        date = date.date().strftime("%Y%m%d")
         added_rows = 0
-        if not directory.is_dir():
-            continue
-        date = directory.name
-        if pd.Timestamp(date) in dates:
+        if date in dates:
             print(f"[INFO] {date} already in database -> Skipping date.")
             continue
         print(f"[INFO] Adding observations from {date} to database.")
