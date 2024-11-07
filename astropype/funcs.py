@@ -31,7 +31,7 @@ __all__ = [
 def init_pool(files: list, kwargs: dict) -> list:
     if isinstance(files, (Path, str)):
         files = [files]
-    with Pool() as pool:
+    with Pool(processes=8) as pool:
         result = pool.map(
             pool_func,
             [

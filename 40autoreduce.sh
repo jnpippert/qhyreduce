@@ -3,14 +3,14 @@
 SUBMIT=/data/wst/u/jpippert/qhyreduce/scripts/submit_job.sh
 REDUCE=/data/wst/u/jpippert/qhyreduce/40autoreduce.py
 help () {
-    echo "TODO Help"
+    $REDUCE -h
     exit 0
 }
 
 
-#if [ "$#" -eq 0 ] || [ "$1" == "h" ];  then
-#    help;
-#fi
+if [ "$#" -eq 0 ] || [ "$1" == "h" ];  then
+    help;
+fi
 
-echo $SUBMIT python $REDUCE $*
+qsub $SUBMIT python $REDUCE $*
 
