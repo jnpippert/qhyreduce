@@ -1,17 +1,22 @@
+"""TODO docstring"""
+
 from pathlib import Path
+from typing import Any
+
 import numpy as np
 from astropy.io import fits
 from scipy import ndimage
-from .pixelmath import clip_distribution, invert_mask, replace_nans
+
 from .decorator import timeit
 from .funcs import init_pool, remove_bad_pixel_func
-from typing import Any
+from .pixelmath import clip_distribution, invert_mask, replace_nans
 
 
 @timeit
 def create_bad_pixel_mask(
     reference_file: Path, k: int = 5, output: str = "bad_pixel_mask.fits"
 ) -> np.ndarray:
+    """TODO docstring"""
     print("detecting bad pixels...")
     ref_data: np.ndarray = fits.getdata(reference_file)
     clipped_ref_data = clip_distribution(ref_data.copy())
@@ -28,13 +33,14 @@ def create_bad_pixel_mask(
 
 @timeit
 def remove_bad_pixels(
-    __files: list,
+    __files: list[Path],
     __mask_file: Path,
-    remove : bool = True,
+    remove: bool = True,
     prefix: str = "n",
     value: Any = None,
     value_func: str = None,
 ) -> list:
+    """TODO docstring"""
     mask = fits.getdata(__mask_file).astype(np.float32)
     num = len(np.where(mask == 0)[0])
     mask[mask == 0] = np.nan
@@ -46,6 +52,6 @@ def remove_bad_pixels(
         "value": value,
         "value_func": value_func,
         "func": remove_bad_pixel_func,
-        "remove" : remove,
+        "remove": remove,
     }
     return init_pool(__files, kwargs)

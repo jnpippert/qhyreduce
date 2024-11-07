@@ -1,13 +1,15 @@
-from astropy.io import fits
-from pathlib import Path
-import pandas as pd
-from pandas import DataFrame
-import os
-from typing import Any
-import operator as op
-import numpy as np
-from datetime import datetime
+"""TODO docstring"""
 
+import operator as op
+import os
+from datetime import datetime
+from pathlib import Path
+from typing import Any
+
+import numpy as np
+import pandas as pd
+from astropy.io import fits
+from pandas import DataFrame
 
 __all__ = [
     "create",
@@ -25,6 +27,7 @@ BLACKLIST = ["qhy_20240312163001.fits"]
 def create(
     __name: Path = Path("qhy_database.pkl"), overwrite: bool = False, omit: bool = True
 ):
+    """TODO docstring"""
     if isinstance(__name, str):
         __name = Path(__name)
     path = __name.cwd()
@@ -49,8 +52,10 @@ def create(
 
 
 def update(__database: Path, __archivepath: Path):
+    """TODO docstring"""
     dataframe = pd.read_pickle(__database)
     dates = dataframe["date"].drop_duplicates().values
+    dates = dates.sort_values(by=["date"], ascending=True)
     for directory in __archivepath.iterdir():
         added_rows = 0
         if not directory.is_dir():
@@ -81,7 +86,7 @@ def update(__database: Path, __archivepath: Path):
                     break
             if found_substring:
                 continue
-                    
+
             if "bias" in obj:
                 if obj != "bias_pipeline":
                     continue
@@ -113,7 +118,7 @@ def update(__database: Path, __archivepath: Path):
                     median = 0
             else:
                 median = 0
-            print(filename,obj,fil,exp)
+            print(filename, obj, fil, exp)
             dataframe = append(
                 dataframe,
                 {
@@ -173,31 +178,33 @@ def extract(__dataframe: DataFrame, column: str, distinct: bool = True) -> list:
     return list(__dataframe[column].values)
 
 
-def show(__database: Path, __date : str = None) -> None:
+def show(__database: Path, __date: str = None) -> None:
     pd.set_option("display.max_rows", None)
     database = pd.read_pickle(__database)
     if __date is not None:
-        database = select(database,"date",pd.Timestamp(__date),"==") 
+        database = select(database, "date", pd.Timestamp(__date), "==")
     print(database)
 
 
 def select_flat_date_candidates(
     __database: Path,
     __filter: str,
-    __date : str,
+    __date: str,
     __minnum: int = 5,
 ) -> DataFrame:
     dataframe = select(pd.read_pickle(__database), "object", "sky", "==")
     if pd.Timestamp(__date) >= pd.Timestamp("20240110"):
         print("[INFO] Considering dates only younger than 2024.01.10")
-        dataframe = select(dataframe,"date",pd.Timestamp("20240110"),">=")
+        dataframe = select(dataframe, "date", pd.Timestamp("20240110"), ">=")
     if pd.Timestamp(__date) <= pd.Timestamp("20231219"):
         print("[INFO] Considering dates only older than 2023.12.19")
-        dataframe = select(dataframe,"date",pd.Timestamp("20231219"),"<=")
-    if pd.Timestamp(__date) > pd.Timestamp("20231219") and pd.Timestamp(__date) < pd.Timestamp("20240110"):
+        dataframe = select(dataframe, "date", pd.Timestamp("20231219"), "<=")
+    if pd.Timestamp(__date) > pd.Timestamp("20231219") and pd.Timestamp(
+        __date
+    ) < pd.Timestamp("20240110"):
         print("[INFO] Considering dates between 2023.12.20 and 2024.01.09")
-        dataframe = select(dataframe,"date",pd.Timestamp(20231219),">")
-        dataframe = select(dataframe,"date",pd.Timestamp(20240110),"<")
+        dataframe = select(dataframe, "date", pd.Timestamp(20231219), ">")
+        dataframe = select(dataframe, "date", pd.Timestamp(20240110), "<")
     dataframe = select(dataframe, "filter", __filter, "==")
     dataframe = select(dataframe, "median", 16500, ">=")
     dataframe = select(dataframe, "median", 23500, "<=")
@@ -249,7 +256,7 @@ def select_darks(
 
 
 def select_flats(__database: Path, __filter: str, __date: str, __minnum: int = 5):
-    dataframe = select_flat_date_candidates(__database, __filter, __date,__minnum)
+    dataframe = select_flat_date_candidates(__database, __filter, __date, __minnum)
     return collect_flat_frames(dataframe, __date)
 
 
