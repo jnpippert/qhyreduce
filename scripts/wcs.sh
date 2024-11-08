@@ -9,6 +9,7 @@ function wcs {
     
     bash $SCRIPTS/sex_stars.sh $FILE
     ldactoasc -q -s -i ${FILE%".fits"}.ldac  -t LDAC_OBJECTS > ${FILE%".fits"}.cat 2> /dev/null
+    # TODO add check of how many sources were found
     scamp ${FILE%".fits"}.ldac -c "$CONFPATH"scamp.conf
     awk '{print $1,$16,$17,$18,$19,$42,$44}' ${FILE%".fits"}.cat > ${FILE%".fits"}_srcs.cat
     rm -f ${FILE%".fits"}.cat
@@ -31,12 +32,12 @@ while (( "$#" )); do
     case $1 in
 
         --FWHM-LIMIT)
-            shift
-            FWHM_LIMIT=$1
+            FWHM_LIMIT=$2
+	    shift
             ;;
 	--EPS-LIMIT)
-	    shift
-	    EPS_LIMIT=$1
+	    EPS_LIMIT=$2
+	    shift 
 	    ;;
         *)
             ;;
