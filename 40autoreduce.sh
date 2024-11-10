@@ -1,7 +1,7 @@
 #!usr/bin/bash
 
 # PATHS
-PYREDUCE=/data/wst/u/jpippert/qhyreduce/40autoreduce.py
+#PYREDUCE="40autoreduce.py"
 
 # VARIABLES
 CENTERTYPE="ALL"
@@ -12,17 +12,19 @@ AUTOREDUCE=""
 
 # METHODS
 help () {
-    $PYREDUCE -h
-    exit 0
+     $PYREDUCE -h
+     echo "teste"
+     exit 0
 }
 
 # SCRIPT START
 if [ "$#" -eq 0 ] || [ "$1" == "h" ];  then
-    help;
+    exit 0
 fi
 
 while [ "$#" -gt 0 ]; do
-    case "$1" in
+        
+        case "$1" in
         -h | --help)
             help
             exit
@@ -31,6 +33,7 @@ while [ "$#" -gt 0 ]; do
         # SWARP KWARGS
         -CENTER)
             CENTER="$2"
+            echo $2
             shift 2
             ;;
         -IMAGEOUT_NAME)
@@ -45,8 +48,8 @@ while [ "$#" -gt 0 ]; do
             AUTOREDUCE=$AUTOREDUCE "$1"
             shift 1
             ;;
-    esac
-done
+        esac
+    done
 
 echo $AUTOREDUCE
 
