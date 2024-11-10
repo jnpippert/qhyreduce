@@ -31,14 +31,14 @@ while (( "$#" )); do
 
     case $1 in
 
-        --FWHM-LIMIT)
-            FWHM_LIMIT=$2
+        -FWHM)
+            FWHM_LIMIT="$2"
 	    shift
             ;;
-	--EPS-LIMIT)
-	    EPS_LIMIT=$2
-	    shift 
-	    ;;
+	    -EPS)
+            EPS_LIMIT="$2"
+            shift 
+            ;;
         *)
             ;;
     esac
