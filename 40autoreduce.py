@@ -34,10 +34,10 @@ args = parser.parse_args(args=None if sys.argv[1:] else ["--help"])
 
 if args.createdatabase:
     database.create("/data/wst/u/jpippert/qhyreduce/qhy_database.pkl",overwrite=True)
-    database.update("/data/wst/u/jpippert/qhyreduce/qhy_database.pkl", Path("/data/wst/u/wst/PIMA3/rawdata"))
+    database.update("/data/wst/u/jpippert/qhyreduce/qhy_database.pkl", Path("/data/wst/u/wst/archive/wstserver/QHY_43cm"))
     exit()
 if args.updatedatabase:
-    database.update("/data/wst/u/jpippert/qhyreduce/qhy_database.pkl", Path("/data/wst/u/wst/PIMA3/rawdata"))
+    database.update("/data/wst/u/jpippert/qhyreduce/qhy_database.pkl", Path("/data/wst/u/wst/archive/wstserver/QHY_43cm"))
     exit()
 
 if args.showdatabase:
@@ -265,10 +265,10 @@ def main():
     if isinstance(args.bin,int):
         _BINNING = True
     
-    try:
-        database.update("/data/wst/u/jpippert/qhyreduce/qhy_database.pkl", _ARCHIVEPATH)
-    except:
-        raise FileNotFoundError("no database found. Use --createdatabase")
+    #try:
+    database.update("/data/wst/u/jpippert/qhyreduce/qhy_database.pkl", _ARCHIVEPATH)
+    #except:
+    #    raise FileNotFoundError("no database found. Use --createdatabase")
     database.sort("/data/wst/u/jpippert/qhyreduce/qhy_database.pkl", ["date", "object"], [True, True])
     
 
