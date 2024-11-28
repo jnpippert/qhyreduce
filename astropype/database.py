@@ -119,6 +119,8 @@ def update(__database: Path, __archivepath: Path):
                     median = 0
             else:
                 median = 0
+            if median==0:
+                continue
             print(filename, obj, fil, exp)
             dataframe = append(
                 dataframe,
