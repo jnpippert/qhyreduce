@@ -55,9 +55,7 @@ def update(__database: Path, __archivepath: Path):
     """TODO docstring"""
     dataframe = pd.read_pickle(__database)
     dates = dataframe["date"].drop_duplicates().values
-    archive_dates = [
-        pd.Timestamp(d.name) for d in __archivepath.iterdir() if d.is_dir()
-    ]
+    archive_dates = [pd.Timestamp(d.name) for d in __archivepath.iterdir() if d.is_dir() and d.name not in ["comments","logfiles"]]
     archive_dates.sort()
     for date in archive_dates:
         date = date.date().strftime("%Y%m%d")
@@ -119,8 +117,6 @@ def update(__database: Path, __archivepath: Path):
                     median = 0
             else:
                 median = 0
-            if median==0:
-                continue
             print(filename, obj, fil, exp)
             dataframe = append(
                 dataframe,

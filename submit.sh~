@@ -1,0 +1,17 @@
+% cat submit.sh
+#!/bin/bash
+#$ -cwd
+#$ -m n
+#$ -wd /data/wst/u/jpippert/qhyreduce/
+#$ -l h_rt=01:00:00
+#$ -N autoreduce
+#$ -P wstproject
+#$ -o /data/wst/u/jpippert/qhyreduce/
+#$ -e /data/wst/u/jpippert/qhyreduce/
+#$ -pe smp 8
+
+export $TMPDIR=/data/wst/u/jpippert/qhyreduce/tmp
+export $NPROC_AUTOREDUCE=8
+micromamba clean
+micromamba activate autoreduce
+python test.py 2>&1 >> script.log

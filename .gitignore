@@ -3,6 +3,9 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+#job files
+submit.sh
+
 #test files
 test*
 

@@ -11,6 +11,8 @@ from astropype.utilities import *
 from astropype.sky import *
 from astropype.badpixel import *
 from astropype.fitsreduction import *
+import logging
+
 
 parser = argparse.ArgumentParser()
 parser.add_argument("-o", "--object", type=str, default=True)
@@ -300,6 +302,7 @@ def main():
             print(f"[INFO]    Filter = {_FILTER}")
             print(f"[INFO]    Date = {_DATE}")
             continue
+        print("copying files")
         copy_files(objectfiles, _TMPPATH)
 
         prefix = "co-"

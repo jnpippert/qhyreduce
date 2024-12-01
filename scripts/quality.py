@@ -3,8 +3,9 @@ import sys
 import os
 
 def calc_quality(catalog : str) -> tuple[float,float]:
-    fwhm,eps = np.loadtxt(catalog,usecols=(5,6),unpack=True)
-    return np.median(fwhm) * 3600,np.median(eps),len(eps)
+    fwhm,eps,star = np.loadtxt(catalog,usecols=(5,6,7),unpack=True)
+    stars = star>0.8
+    return np.median(fwhm[stars]) * 3600,np.median(eps[stars]),len(eps[stars])
 
 def set_quality(fwhm : float,eps :float,nsrcs : float, filename : str) -> None:
     os.system(f"sethead MED-FWHM={fwhm} {filename}")
